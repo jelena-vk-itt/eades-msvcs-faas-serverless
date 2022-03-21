@@ -85,6 +85,9 @@ func GetAllNews(w http.ResponseWriter, r *http.Request) {
 	// Read the query parameter "style" and check it against the different allowed values, assigning
 	// the appropriate template name to variable templateName.	
 	var templateName string = ""
+	// NEW IN ALLTHENEWS_V4
+	// As some of the html is created in this function now, we need to know what tag to use for
+	// the news times, depending on the style.
 	var tagName string = ""
 	switch r.URL.Query().Get("style") {
 	case "plain":
@@ -98,14 +101,16 @@ func GetAllNews(w http.ResponseWriter, r *http.Request) {
 		tagName = "h2"
 	}
 
-	// NEW IN VERSION 4 OF ALLTHENEWS
+	// NEW IN ALLTHENEWS_V4
 	// Create a HTML string insert for the general case of any number of news sources
 	var allNewsString string = ""
 	for k, v := range fetchedStrings {
 		allNewsString += "<" + tagName + " class=" + k + ">" + k + ": " + v + "</" + tagName + ">"
 	}
 	
-	
+	// NEW IN ALLTHENEWS_V4
+	// The template insert is not of type template.HTML, as it includes some markup (tags) that
+	// need to be treated as such.
 	// Create the inserts for the HTML file, which is only a skeleton with no information.
 	inserts := struct {
 		Allnews template.HTML
