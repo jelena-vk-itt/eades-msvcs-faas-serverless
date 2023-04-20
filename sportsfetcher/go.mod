@@ -1,1 +1,1 @@
-module sportsfetcher
+module tudublin.ie/sportsfetcher
